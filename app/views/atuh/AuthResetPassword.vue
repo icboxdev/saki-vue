@@ -80,8 +80,8 @@ async function handleSubmit() {
         <input style="display: none" type="password" name="fakepasswordremembered" />
 
         <div class="flex flex-col gap-1 mb-5">
-            <label for="token" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Código de recuperação</label>
-            <InputText id="token" name="reset_token" v-model="payload.token" type="text" placeholder="Digite o código de recuperação" autocomplete="off" role="presentation" />
+            <label for="x-token" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Código de recuperação</label>
+            <InputText id="x-token" name="reset_token" v-model="payload.token" type="text" placeholder="Digite o código de recuperação" autocomplete="off" role="presentation" />
         </div>
 
         <div class="flex flex-col w-full gap-1 mb-7">
@@ -90,14 +90,14 @@ async function handleSubmit() {
         </div>
 
         <div class="flex flex-col gap-1">
-            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nova senha</label>
-            <Password id="password" name="new_password" toggle-mask v-model="payload.password" type="password" placeholder="Digite sua nova senha" class="flex flex-col w-full" autocomplete="new-password" />
+            <label for="x-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nova senha</label>
+            <Password inputId="x-password" name="new_password" toggle-mask v-model="payload.password" type="password" placeholder="Digite sua nova senha" class="flex flex-col w-full" autocomplete="new-password" />
         </div>
 
         <div class="flex flex-col gap-1 w-full mb-6">
             <label for="passwordConfirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirmar nova senha</label>
             <Password
-                id="passwordConfirmation"
+                inputId="passwordConfirmation"
                 name="confirm_password"
                 toggle-mask
                 :feedback="false"

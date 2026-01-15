@@ -44,8 +44,8 @@ function next_setup() {
         <p class="text-gray-600 dark:text-gray-300">Digite seu email e enviaremos instruções para redefinir sua senha.</p>
 
         <div class="flex flex-col w-full gap-1 mb-7">
-            <label for="email" class="block font-medium text-gray-700 dark:text-gray-300"> Email </label>
-            <input-text id="email" type="email" placeholder="Digite seu email" v-model="email" />
+            <label for="x-email" class="block font-medium text-gray-700 dark:text-gray-300"> Email </label>
+            <input-text id="x-email" type="email" placeholder="Digite seu email" v-model="email" autocomplete="off" />
         </div>
         <div class="flex gap-3">
             <Button size="small" type="submit" label="Solicitar código" icon="pi pi-send" class="w-full" :disabled="await_response && !email" :loading="await_response" severity="success" />

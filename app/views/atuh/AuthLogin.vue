@@ -44,7 +44,7 @@ watch(
     }
 );
 
-onBeforeMount(async() => {
+onBeforeMount(async () => {
     if (auth.isAuthenticated) {
         window.location.href = '/';
     }
@@ -55,19 +55,18 @@ onBeforeMount(async() => {
     <form @submit.prevent="submitForm" class="flex flex-col gap-4">
         <div class="flex flex-col gap-1">
             <label for="x-email" class="block font-medium text-gray-700 dark:text-gray-300"> Usuário ou Email </label>
-            <input-text id="x-email" v-model="payload.username" class="w-full" />
+            <InputText id="x-email" v-model="payload.username" class="w-full" />
         </div>
 
         <div class="flex flex-col gap-1">
             <label for="x-password" class="block font-medium text-gray-700 dark:text-gray-300"> Senha </label>
-            <Password id="x-password" v-model="payload.password" class="flex flex-col w-full" toggle-mask :feedback="false" />
+            <Password inputId="x-password" v-model="payload.password" class="flex flex-col w-full" toggle-mask :feedback="false" />
         </div>
 
         <div class="flex justify-between items-center text-sm">
             <router-link to="/auth/forgot-password" class="text-blue-500 hover:underline"> Esqueceu a senha? </router-link>
-            <!-- <router-link to="/auth/register" class="text-primary-500 hover:underline"> Criar conta </router-link> -->
         </div>
 
-        <Button label="Entrar" class="w-full py-2 transition mt-5" :loading="loading" v-on:click="submitForm" />
+        <Button type="submit" label="Entrar" class="w-full py-2 transition mt-5" :loading="loading" />
     </form>
 </template>

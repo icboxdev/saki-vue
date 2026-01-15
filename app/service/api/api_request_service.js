@@ -8,7 +8,7 @@ const http = axios.create({
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'User-Agent': 'App Frontend - VUE',
+        // 'User-Agent': 'App Frontend - VUE',
         publicKey: import.meta.env.VITE_API_PUBLIC_KEY,
     }
 });

@@ -36,7 +36,7 @@ async function submitForm() {
 }
 
 watch(
-    () => auth.isAuthenticated,
+    () => auth.isAuthenticated.value,
     async (statusAuthenticated) => {
         if (statusAuthenticated) {
             window.location.href = '/';
@@ -45,7 +45,7 @@ watch(
 );
 
 onBeforeMount(async () => {
-    if (auth.isAuthenticated) {
+    if (auth.isAuthenticated.value) {
         window.location.href = '/';
     }
 });

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AuthService } from '@/service/auth/auth_service';
+import { EncryptionService } from '../help/encryption_service';
 
 // Instância única do Axios (Singleton) para reutilização
 const http = axios.create({
@@ -8,26 +9,18 @@ const http = axios.create({
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        // 'User-Agent': 'App Frontend - VUE',
-        publicKey: import.meta.env.VITE_API_PUBLIC_KEY,
+        publicKey: await EncryptionService.encryptBase64(import.meta.env.VITE_API_PUBLIC_KEY),
     }
 });
 
 // Configuração do Interceptor (Executa antes de cada request)
-http.interceptors.request.use(
-    (config) => {
-        const { tokenType, token } = AuthService.getToken();
-
-        if (token) {
-            config.headers.Authorization = `${tokenType || 'Bearer'} ${token}`;
-        }
-
-        return config; // CRÍTICO: Você precisa retornar a config
-    },
-    (error) => {
-        return Promise.reject(error);
+http.interceptors.request.use((config) => {
+    const { tokenType, token } = AuthService.getToken();
+    if (token) {
+        config.headers.Authorization = `${tokenType || 'Bearer'} ${token}`;
     }
-);
+    return config;
+});
 
 // Helper function fora da classe para limpar o código
 function _buildUrl() {
@@ -45,12 +38,7 @@ export class ApiService {
      * Método genérico de requisição
      */
     static async request(config) {
-        try {
-            const response = await http.request(config);
-            return response;
-        } catch (error) {
-            throw error;
-        }
+        return http.request(config);
     }
 
     static async get(url, params = {}) {

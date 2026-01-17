@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, reactive } from 'vue';
 import { AuthService } from '@/service/auth/auth_service';
 
-export const AuthStore = defineStore('auth_store', () => {
+export const AuthStore = defineStore('authStore', () => {
     const state = reactive({
         user: {},
         isAuthenticated: false
@@ -14,30 +14,34 @@ export const AuthStore = defineStore('auth_store', () => {
         state.isAuthenticated = isAuthenticated;
         return isAuthenticated;
     }
+
     async function setAuth(data) {
         state.user = data.user;
         state.isAuthenticated = data.isAuthenticated;
     }
+
     const functions = {
         login: authLotin,
         setAuth
     };
+
     const isAuthenticated = computed(() => {
         const { token } = AuthService.getToken();
         if (!token) return false;
         return state.isAuthenticated;
     });
-    const auth = {
-        isAuthenticated,
-        isAdmin: computed(() => state.user.role === 'admin'),
-        isMaster: computed(() => state.user.role === 'master'),
-        isUser: computed(() => state.user.role === 'user'),
-        isView: computed(() => state.user.role === 'view'),
-        ...state.user
-    };
+
+    const auth = computed(() => {
+        return {
+            isAuthenticated,
+            isSuper: state.user.role === 'super',
+            isUser: state.user.role === 'user',
+            ...state.user,
+        }
+    });
 
     return {
         functions,
-        auth
+        auth,
     };
 });

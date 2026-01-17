@@ -4,7 +4,7 @@ import { AuthService } from '@/service/auth/auth_service';
 import { ConfirmBox, MessageError } from '@/service/message_custom';
 import { computed } from 'vue';
 
-const company_name = computed(() => 'Nome da Aplicação');
+const company_name = computed(() => 'IcBox');
 
 const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
 

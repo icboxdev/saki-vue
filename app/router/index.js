@@ -3,6 +3,7 @@ import AuthLayout from '@/layout/AuthLayout.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { AuthService } from '@/service/auth/auth_service';
 import { AuthStore } from '@/store/auth_store';
+import  accessControlsRoutes  from './user_router';
 
 
 const router = createRouter({
@@ -17,7 +18,8 @@ const router = createRouter({
                     name: 'dashboard',
                     component: () => import('@/views/Dashborad.vue'),
                     meta: { title: 'Dashboard' }
-                }
+                },
+                accessControlsRoutes,
             ]
         },
         {
@@ -55,7 +57,7 @@ const router = createRouter({
 
 // --- Guard de autenticação ---
 router.beforeEach(async (to) => {
-    const { auth } = AuthStore();
+    const authStore = AuthStore();
     
     const publicRoutes = ['auth-login', 'auth-register-setup', 'auth-forgot-password', 'auth-reset-password'];
     const isPublicRoute = publicRoutes.includes(to.name);
@@ -79,7 +81,7 @@ router.beforeEach(async (to) => {
 
     if (isPublicRoute) return true;
 
-    if (auth.isAuthenticated) return true;
+    if (authStore.auth.isAuthenticated.value) return true;
 
     const { token } = AuthService.getToken();
     if (token) {

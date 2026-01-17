@@ -1,17 +1,15 @@
 import { ApiService } from '@/service/api/api_request_service';
 import { MessageSuccess } from '../message_custom';
+import { EncryptionService } from '../help/encryption_service';
 
 export class AuthService {
     static async login(payload) {
-        const {
-            status,
-            data: {
-                isAuthenticated,
-                user,
-                token: { token },
-                tokenType
-            }
-        } = await ApiService.post('api/v1/login', payload);
+        const { username, password } = payload;
+        const { status, data: { isAuthenticated, user, token: { token }, tokenType }
+        } = await ApiService.post('api/v1/login', {
+            username: await EncryptionService.encrypt(username),
+            password: await EncryptionService.encrypt(password)
+        });
 
         if (status === 200) {
             MessageSuccess(token, 'Login realizado com sucesso');
@@ -122,8 +120,16 @@ export class AuthService {
     }
 
     static async registerSuperUser(payload) {
-        const { status } = await ApiService.post('/setup/create', payload);
-        return status === 200;
+        const {
+            name, password, password_confirmation, email
+        } = payload;
+        const { status } = await ApiService.post('/setup/create', {
+            name,
+            password: await EncryptionService.encrypt(password),
+            password_confirmation: await EncryptionService.encrypt(password_confirmation),
+            email: await EncryptionService.encrypt(email),
+        });
+        return status === 201;
     }
     static async checkStartSetup() {
         const {

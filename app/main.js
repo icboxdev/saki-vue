@@ -12,6 +12,7 @@ import '@/assets/styles.scss';
 import { setTheme } from './config/theme';
 import { AuthService } from './service/auth/auth_service';
 import { AuthStore } from './store/auth_store';
+import { PreferenceStore } from './store/preference_store';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -31,8 +32,10 @@ app.use(ConfirmationService);
 
 (async function init() {
     try {
-       const { isValid, user } = await AuthService.getSession();
-       AuthStore().functions.setAuth({ isAuthenticated: isValid, user });
+        const { functions } = PreferenceStore();
+        await functions.fetchPreferences();
+        const { isValid, user } = await AuthService.getSession();
+        AuthStore().functions.setAuth({ isAuthenticated: isValid, user });
 
     } catch (err) {
         console.error('Erro init getSession', err);
